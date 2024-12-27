@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9938AFBC2D1E98490090977E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFBB2D1E98490090977E /* SnapKit */; };
+		9938AFBF2D1E98690090977E /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFBE2D1E98690090977E /* RxCocoa */; };
+		9938AFC12D1E98690090977E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFC02D1E98690090977E /* RxSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		9938AF7D2D1E96B00090977E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -48,16 +54,6 @@
 			path = PokeDexApp;
 			sourceTree = "<group>";
 		};
-		9938AF7F2D1E96B00090977E /* PokeDexAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PokeDexAppTests;
-			sourceTree = "<group>";
-		};
-		9938AF892D1E96B00090977E /* PokeDexAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PokeDexAppUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +61,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9938AFC12D1E98690090977E /* RxSwift in Frameworks */,
+				9938AFBF2D1E98690090977E /* RxCocoa in Frameworks */,
+				9938AFBC2D1E98490090977E /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,8 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				9938AF682D1E96AF0090977E /* PokeDexApp */,
-				9938AF7F2D1E96B00090977E /* PokeDexAppTests */,
-				9938AF892D1E96B00090977E /* PokeDexAppUITests */,
 				9938AF672D1E96AF0090977E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,6 +122,9 @@
 			);
 			name = PokeDexApp;
 			packageProductDependencies = (
+				9938AFBB2D1E98490090977E /* SnapKit */,
+				9938AFBE2D1E98690090977E /* RxCocoa */,
+				9938AFC02D1E98690090977E /* RxSwift */,
 			);
 			productName = PokeDexApp;
 			productReference = 9938AF662D1E96AF0090977E /* PokeDexApp.app */;
@@ -142,9 +142,6 @@
 			);
 			dependencies = (
 				9938AF7E2D1E96B00090977E /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				9938AF7F2D1E96B00090977E /* PokeDexAppTests */,
 			);
 			name = PokeDexAppTests;
 			packageProductDependencies = (
@@ -165,9 +162,6 @@
 			);
 			dependencies = (
 				9938AF882D1E96B00090977E /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				9938AF892D1E96B00090977E /* PokeDexAppUITests */,
 			);
 			name = PokeDexAppUITests;
 			packageProductDependencies = (
@@ -208,6 +202,10 @@
 			);
 			mainGroup = 9938AF5D2D1E96AF0090977E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9938AFBA2D1E98490090977E /* XCRemoteSwiftPackageReference "SnapKit" */,
+				9938AFBD2D1E98690090977E /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9938AF672D1E96AF0090977E /* Products */;
 			projectDirPath = "";
@@ -294,9 +292,9 @@
 				INFOPLIST_FILE = PokeDexApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,9 +320,9 @@
 				INFOPLIST_FILE = PokeDexApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -569,6 +567,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9938AFBA2D1E98490090977E /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		9938AFBD2D1E98690090977E /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9938AFBB2D1E98490090977E /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9938AFBA2D1E98490090977E /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		9938AFBE2D1E98690090977E /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9938AFBD2D1E98690090977E /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		9938AFC02D1E98690090977E /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9938AFBD2D1E98690090977E /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9938AF5E2D1E96AF0090977E /* Project object */;
 }
