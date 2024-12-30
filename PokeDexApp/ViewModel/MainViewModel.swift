@@ -1,30 +1,41 @@
 import Foundation
 import RxSwift
-import Moya
-import RxMoya
 
 class MainViewModel {
-    /// DisposeBag for managing subscriptions
+
     private let disposeBag = DisposeBag()
     
-    /// BehaviorSubject for the View to observe
     let pokemonDataSubject = BehaviorSubject<[Pokemon]>(value: [])
     
-    /// Fetches the Pokemon data from the API
+    let pokemonDetailSubject = BehaviorSubject<PokeMonDetail?>(value: nil)
+    
     func fetchPokemonData() {
-        // Fixed limit and offset values
         let limit = 20
         let offset = 0
-        let endpoint = "pokemon?limit=\(limit)&offset=\(offset)"
+        guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=\(limit)&offset=\(offset)") else {
+            pokemonDataSubject.onError(NetworkError.invalidUrl)
+            return
+        }
         
-        // Use NetworkManager to fetch data
-        NetworkManager.shared.fetch(endpoint: endpoint)
+        NetworkManager.shared.fetch(url: url)
             .subscribe(onSuccess: { [weak self] (pokemonResponse: PokemonResponse) in
-                // On success, pass the data to the BehaviorSubject
                 self?.pokemonDataSubject.onNext(pokemonResponse.results)
             }, onFailure: { [weak self] error in
-                // On failure, pass the error to the BehaviorSubject
                 self?.pokemonDataSubject.onError(error)
+            }).disposed(by: disposeBag)
+    }
+    
+    func fetchPokemonDetail(for urlString: String) {
+        guard let url = URL(string: urlString) else {
+            pokemonDetailSubject.onError(NetworkError.invalidUrl)
+            return
+        }
+    
+        NetworkManager.shared.fetch(url: url)
+            .subscribe(onSuccess: { [weak self] (pokemonDetail: PokeMonDetail) in
+                self?.pokemonDetailSubject.onNext(pokemonDetail)
+            }, onFailure: { [weak self] error in
+                self?.pokemonDetailSubject.onError(error)
             }).disposed(by: disposeBag)
     }
 }
