@@ -10,6 +10,8 @@
 		9938AFBC2D1E98490090977E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFBB2D1E98490090977E /* SnapKit */; };
 		9938AFBF2D1E98690090977E /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFBE2D1E98690090977E /* RxCocoa */; };
 		9938AFC12D1E98690090977E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFC02D1E98690090977E /* RxSwift */; };
+		99CA320D2D22661100557BF8 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 99CA320C2D22661100557BF8 /* Moya */; };
+		99CA320F2D22661100557BF8 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 99CA320E2D22661100557BF8 /* RxMoya */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,8 +63,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99CA320F2D22661100557BF8 /* RxMoya in Frameworks */,
 				9938AFC12D1E98690090977E /* RxSwift in Frameworks */,
 				9938AFBF2D1E98690090977E /* RxCocoa in Frameworks */,
+				99CA320D2D22661100557BF8 /* Moya in Frameworks */,
 				9938AFBC2D1E98490090977E /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,6 +129,8 @@
 				9938AFBB2D1E98490090977E /* SnapKit */,
 				9938AFBE2D1E98690090977E /* RxCocoa */,
 				9938AFC02D1E98690090977E /* RxSwift */,
+				99CA320C2D22661100557BF8 /* Moya */,
+				99CA320E2D22661100557BF8 /* RxMoya */,
 			);
 			productName = PokeDexApp;
 			productReference = 9938AF662D1E96AF0090977E /* PokeDexApp.app */;
@@ -205,6 +211,7 @@
 			packageReferences = (
 				9938AFBA2D1E98490090977E /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9938AFBD2D1E98690090977E /* XCRemoteSwiftPackageReference "RxSwift" */,
+				99CA320B2D22661100557BF8 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9938AF672D1E96AF0090977E /* Products */;
@@ -585,6 +592,14 @@
 				minimumVersion = 6.8.0;
 			};
 		};
+		99CA320B2D22661100557BF8 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -602,6 +617,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9938AFBD2D1E98690090977E /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		99CA320C2D22661100557BF8 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99CA320B2D22661100557BF8 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		99CA320E2D22661100557BF8 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99CA320B2D22661100557BF8 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
