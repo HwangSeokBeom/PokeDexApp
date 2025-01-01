@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 import RxSwift
+import UIKit
 
 enum NetworkError: Error {
     case invalidUrl
@@ -15,7 +16,7 @@ enum NetworkError: Error {
     case decodingFail
 }
 
-class NetworkManager {
+final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
 
@@ -35,6 +36,29 @@ class NetworkManager {
                         }
                     }
                 }
+            return Disposables.create()
+        }
+    }
+    
+    func fetchPokemonImage(for id: Int) -> Single<UIImage> {
+        return Single<UIImage>.create { observer in
+            guard let url = APIEndpoint.pokemonImageURL(for: id) else {
+                observer(.failure(NetworkError.invalidUrl))
+                return Disposables.create()
+            }
+            
+            AF.request(url).responseData { response in
+                switch response.result {
+                case .success(let data):
+                    if let image = UIImage(data: data) {
+                        observer(.success(image))
+                    } else {
+                        observer(.failure(NetworkError.decodingFail))
+                    }
+                case .failure:
+                    observer(.failure(NetworkError.dataFetchFail))
+                }
+            }
             return Disposables.create()
         }
     }

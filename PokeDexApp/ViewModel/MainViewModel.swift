@@ -1,41 +1,79 @@
 import Foundation
 import RxSwift
+import UIKit
 
-class MainViewModel {
+final class MainViewModel { // 지금 여기 있는 것들을 NetworkManger와 MainViewModel 사이에 있는 useCase 객체를 만들어서 옮기기
 
     private let disposeBag = DisposeBag()
-    
-    let pokemonDataSubject = BehaviorSubject<[Pokemon]>(value: [])
-    
-    let pokemonDetailSubject = BehaviorSubject<PokeMonDetail?>(value: nil)
+    let pokemonListSubject = BehaviorSubject<[Pokemon]>(value: [])
+    let pokemonDetailSubject = BehaviorSubject<PokemonDetail?>(value: nil)
+    let pokemonImageSubject = BehaviorSubject<UIImage?>(value: nil)
+    private var currentPage = 0
+    private let limit = 20
+    private var isLoading = false  // 로딩 중 상태 추가
     
     func fetchPokemonData() {
-        let limit = 20
-        let offset = 0
-        guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=\(limit)&offset=\(offset)") else {
-            pokemonDataSubject.onError(NetworkError.invalidUrl)
+        guard !isLoading else { return } // 이미 로딩 중이면 요청하지 않음
+        isLoading = true
+        
+        let offset = currentPage * limit
+        
+        guard let url = APIEndpoint.pokemonListURL(limit: limit, offset: offset) else {
+            pokemonListSubject.onError(NetworkError.invalidUrl)
+            isLoading = false
             return
         }
         
         NetworkManager.shared.fetch(url: url)
             .subscribe(onSuccess: { [weak self] (pokemonResponse: PokemonResponse) in
-                self?.pokemonDataSubject.onNext(pokemonResponse.results)
+                guard let self = self else { return }
+                
+                do {
+                    // 새로운 데이터가 로드되면 기존 데이터에 추가
+                    self.currentPage += 1
+                    var currentPokemonList = try self.pokemonListSubject.value()
+
+                    // 중복된 데이터를 추가하지 않도록 필터링
+                    let newPokemons = pokemonResponse.results.filter { newPokemon in
+                        !currentPokemonList.contains { $0.url == newPokemon.url }
+                    }
+                    
+                    currentPokemonList.append(contentsOf: newPokemons)
+                    self.pokemonListSubject.onNext(currentPokemonList)
+                    
+                    self.isLoading = false
+                } catch {
+                    // 오류 처리
+                    print("Error fetching Pokémon list: \(error)")
+                    self.isLoading = false
+                }
             }, onFailure: { [weak self] error in
-                self?.pokemonDataSubject.onError(error)
+                self?.pokemonListSubject.onError(error)
+                self?.isLoading = false
             }).disposed(by: disposeBag)
     }
     
     func fetchPokemonDetail(for urlString: String) {
-        guard let url = URL(string: urlString) else {
+        guard let url = APIEndpoint.pokemonDetailURL(for: urlString) else {
             pokemonDetailSubject.onError(NetworkError.invalidUrl)
             return
         }
-    
+        
         NetworkManager.shared.fetch(url: url)
-            .subscribe(onSuccess: { [weak self] (pokemonDetail: PokeMonDetail) in
+            .subscribe(onSuccess: { [weak self] (pokemonDetail: PokemonDetail) in
                 self?.pokemonDetailSubject.onNext(pokemonDetail)
             }, onFailure: { [weak self] error in
                 self?.pokemonDetailSubject.onError(error)
             }).disposed(by: disposeBag)
     }
+    
+    func fetchPokemonImage(for id: Int) {
+          NetworkManager.shared.fetchPokemonImage(for: id)
+              .subscribe(onSuccess: { [weak self] image in
+                  self?.pokemonImageSubject.onNext(image)
+              }, onFailure: { [weak self] error in
+                  self?.pokemonImageSubject.onError(error)
+              }).disposed(by: disposeBag)
+      }
+    
 }
