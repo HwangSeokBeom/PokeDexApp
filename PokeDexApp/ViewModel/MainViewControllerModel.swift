@@ -43,7 +43,6 @@ final class MainViewModel { // 지금 여기 있는 것들을 NetworkManger와 M
                     
                     self.isLoading = false
                 } catch {
-                    // 오류 처리
                     print("Error fetching Pokémon list: \(error)")
                     self.isLoading = false
                 }
