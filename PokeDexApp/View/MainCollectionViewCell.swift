@@ -53,32 +53,40 @@ final class MainCollectionViewCell: UICollectionViewCell {
         // 현재 셀의 indexPath를 저장
         self.currentIndexPath = indexPath
         
+        // 포켓몬 상세 정보를 가져옴
         viewModel.fetchPokemonDetail(for: pokemon.url)
         
+        // 포켓몬 상세 정보 구독
         viewModel.pokemonDetailSubject
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] pokemonDetail in
                 guard let detail = pokemonDetail else { return }
                 
-                // 현재 셀의 indexPath와 일치하는지 확인
-                if self?.currentIndexPath == indexPath {
-
-                    self?.viewModel.fetchPokemonImage(for: detail.id)
-                    
-                    self?.viewModel.pokemonImageSubject
-                        .observe(on: MainScheduler.instance)
-                        .subscribe(onNext: { image in
-                            DispatchQueue.main.async {
-                                self?.imageView.image = image
-                            }
-                        }, onError: { error in
-                            print("Error fetching image: \(error)")
-                        })
-                        .disposed(by: self?.disposeBag ?? DisposeBag()) //
-                }
+                // 현재 셀이 여전히 올바른 indexPath인지 확인
+                guard self?.currentIndexPath == indexPath else { return }
+                
+                guard (self?.currentIndexPath?[1])! + 1 == detail.id else { return }
+                
+                // 포켓몬 이미지를 가져옴
+                self?.viewModel.fetchPokemonImage(for: detail.id)
+                
+                // 포켓몬 이미지 구독
+                self?.viewModel.pokemonImageSubject
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(onNext: { image in
+                        // 현재 셀이 여전히 올바른 indexPath인지 확인
+                        guard self?.currentIndexPath == indexPath else { return }
+                        
+                        self?.imageView.image = image
+                        
+                    }, onError: { error in
+                        print("Error fetching image: \(error)")
+                    })
+                    .disposed(by: self?.disposeBag ?? DisposeBag())
             }, onError: { error in
                 print("Error fetching Pokémon detail: \(error)")
             })
             .disposed(by: disposeBag)
     }
+    
 }

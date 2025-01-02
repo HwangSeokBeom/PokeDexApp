@@ -5,7 +5,7 @@
 //  Created by 내일배움캠프 on 12/31/24.
 //
 
-enum PokemonTypeName: String, CaseIterable, Codable {
+enum PokemonTypeName: String, CaseIterable, Decodable {
     case normal
     case fire
     case water
