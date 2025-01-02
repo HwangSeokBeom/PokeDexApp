@@ -74,7 +74,7 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        bindViewModel()
+        bind()
     }
     
     private func setupViews() {
@@ -114,14 +114,14 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    private func bindViewModel() {
+    private func bind() {
         viewModel.pokemonDetailSubject
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] detail in
                 guard let detail = detail else { return }
                 
                 if let formattedDetails = PokeDetailsFormatter(pokeDetails: detail) {
-                    self?.nameLabel.text = formattedDetails.name   
+                    self?.nameLabel.text = formattedDetails.name
                     self?.typeLabel.text = formattedDetails.type
                     self?.heightLabel.text = formattedDetails.height
                     self?.weightLabel.text = formattedDetails.weight
@@ -129,7 +129,7 @@ final class DetailViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.pokemonImageSubject
+        viewModel.pokemonImageRelay
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] image in
                 self?.imageView.image = image

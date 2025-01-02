@@ -12,7 +12,7 @@ import SnapKit
 
 final class MainViewController: UIViewController {
     
-    private let viewModel = MainViewModel()
+    private let viewModel: MainViewModel
     private let disposeBag = DisposeBag()
     private var pokemon: [Pokemon] = []
     
@@ -34,7 +34,7 @@ final class MainViewController: UIViewController {
         layout.minimumLineSpacing = 10
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
+        collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: MainViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
@@ -42,6 +42,15 @@ final class MainViewController: UIViewController {
         
         return collectionView
     }()
+    
+    init(viewModel: MainViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +88,19 @@ final class MainViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    // 스크롤 시 추가 데이터를 미리 요청
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentHeight = scrollView.contentSize.height
+        let scrollOffset = scrollView.contentOffset.y
+        let height = scrollView.frame.size.height
+        
+        // 스크롤이 거의 끝에 도달하면 데이터 요청
+        if scrollOffset + height > contentHeight - 100 {
+            loadMoreData()
+        }
+    }
+    
+    // 더 많은 데이터 요청
     private func loadMoreData() {
         viewModel.fetchPokemonData() // 더 많은 데이터 요청
     }
@@ -91,7 +113,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainViewCell.identifier, for: indexPath) as? MainViewCell else {
             return UICollectionViewCell()
         }
         
@@ -109,22 +131,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         navigationController?.pushViewController(detailVC, animated: true)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let contentHeight = scrollView.contentSize.height
-        let scrollOffset = scrollView.contentOffset.y
-        let height = scrollView.frame.size.height
-        
-        if scrollOffset + height > contentHeight - 100 {
-            loadMoreData()
-        }
-    }
 }
 
-// 사용한 컬러 hex 값.
-extension UIColor {
-    static let mainRed = UIColor(red: 190/255, green: 30/255, blue: 40/255, alpha: 1.0)
-    static let darkRed = UIColor(red: 120/255, green: 30/255, blue: 30/255, alpha: 1.0)
-    static let cellBackground = UIColor(red: 245/255, green: 245/255, blue: 235/255, alpha: 1.0)
-}
 
 
