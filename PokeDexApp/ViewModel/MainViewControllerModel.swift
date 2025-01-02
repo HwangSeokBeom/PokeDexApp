@@ -2,12 +2,10 @@ import Foundation
 import RxSwift
 import UIKit
 
-final class MainViewModel { // 지금 여기 있는 것들을 NetworkManger와 MainViewModel 사이에 있는 useCase 객체를 만들어서 옮기기
+final class MainViewControllerModel { // 지금 여기 있는 것들을 NetworkManger와 MainViewModel 사이에 있는 useCase 객체를 만들어서 옮기기
 
     private let disposeBag = DisposeBag()
     let pokemonListSubject = BehaviorSubject<[Pokemon]>(value: [])
-    let pokemonDetailSubject = BehaviorSubject<PokemonDetail?>(value: nil)
-    let pokemonImageSubject = BehaviorSubject<UIImage?>(value: nil)
     private var currentPage = 0
     private let limit = 20
     private var isLoading = false  // 로딩 중 상태 추가
@@ -51,28 +49,5 @@ final class MainViewModel { // 지금 여기 있는 것들을 NetworkManger와 M
                 self?.isLoading = false
             }).disposed(by: disposeBag)
     }
-    
-    func fetchPokemonDetail(for urlString: String) {
-        guard let url = APIEndpoint.pokemonDetailURL(for: urlString) else {
-            pokemonDetailSubject.onError(NetworkError.invalidUrl)
-            return
-        }
-        
-        NetworkManager.shared.fetch(url: url)
-            .subscribe(onSuccess: { [weak self] (pokemonDetail: PokemonDetail) in
-                self?.pokemonDetailSubject.onNext(pokemonDetail)
-            }, onFailure: { [weak self] error in
-                self?.pokemonDetailSubject.onError(error)
-            }).disposed(by: disposeBag)
-    }
-    
-    func fetchPokemonImage(for id: Int) {
-          NetworkManager.shared.fetchPokemonImage(for: id)
-              .subscribe(onSuccess: { [weak self] image in
-                  self?.pokemonImageSubject.onNext(image)
-              }, onFailure: { [weak self] error in
-                  self?.pokemonImageSubject.onError(error)
-              }).disposed(by: disposeBag)
-      }
     
 }

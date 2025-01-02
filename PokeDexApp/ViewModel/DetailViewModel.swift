@@ -8,12 +8,13 @@
 import Foundation
 import RxSwift
 import UIKit
+import RxCocoa
 
 final class DetailViewModel {
     
     private let disposeBag = DisposeBag()
     let pokemonDetailSubject = BehaviorSubject<PokemonDetail?>(value: nil)
-    let pokemonImageSubject = BehaviorSubject<UIImage?>(value: nil)
+    let pokemonImageRelay = PublishRelay<UIImage?>()
     
     func fetchPokemonDetail(for urlString: String) {
         guard let url = APIEndpoint.pokemonDetailURL(for: urlString) else {
@@ -30,13 +31,13 @@ final class DetailViewModel {
             })
             .disposed(by: disposeBag)
     }
-    
+   
     func fetchPokemonImage(for id: Int) {
         NetworkManager.shared.fetchPokemonImage(for: id)
             .subscribe(onSuccess: { [weak self] image in
-                self?.pokemonImageSubject.onNext(image)
+                self?.pokemonImageRelay.accept(image) 
             }, onFailure: { [weak self] error in
-                self?.pokemonImageSubject.onError(error)
+                self?.pokemonImageRelay.accept(nil)
             })
             .disposed(by: disposeBag)
     }

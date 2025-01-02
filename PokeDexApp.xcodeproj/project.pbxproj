@@ -10,7 +10,7 @@
 		9938AFBC2D1E98490090977E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFBB2D1E98490090977E /* SnapKit */; };
 		9938AFBF2D1E98690090977E /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFBE2D1E98690090977E /* RxCocoa */; };
 		9938AFC12D1E98690090977E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9938AFC02D1E98690090977E /* RxSwift */; };
-		99CA320D2D22661100557BF8 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 99CA320C2D22661100557BF8 /* Moya */; };
+		995BE5122D26AB2D001A1693 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 995BE5112D26AB2D001A1693 /* Kingfisher */; };
 		99CA320F2D22661100557BF8 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 99CA320E2D22661100557BF8 /* RxMoya */; };
 /* End PBXBuildFile section */
 
@@ -66,8 +66,8 @@
 				99CA320F2D22661100557BF8 /* RxMoya in Frameworks */,
 				9938AFC12D1E98690090977E /* RxSwift in Frameworks */,
 				9938AFBF2D1E98690090977E /* RxCocoa in Frameworks */,
-				99CA320D2D22661100557BF8 /* Moya in Frameworks */,
 				9938AFBC2D1E98490090977E /* SnapKit in Frameworks */,
+				995BE5122D26AB2D001A1693 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,8 +129,8 @@
 				9938AFBB2D1E98490090977E /* SnapKit */,
 				9938AFBE2D1E98690090977E /* RxCocoa */,
 				9938AFC02D1E98690090977E /* RxSwift */,
-				99CA320C2D22661100557BF8 /* Moya */,
 				99CA320E2D22661100557BF8 /* RxMoya */,
+				995BE5112D26AB2D001A1693 /* Kingfisher */,
 			);
 			productName = PokeDexApp;
 			productReference = 9938AF662D1E96AF0090977E /* PokeDexApp.app */;
@@ -212,6 +212,7 @@
 				9938AFBA2D1E98490090977E /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9938AFBD2D1E98690090977E /* XCRemoteSwiftPackageReference "RxSwift" */,
 				99CA320B2D22661100557BF8 /* XCRemoteSwiftPackageReference "Moya" */,
+				995BE5102D26AB2D001A1693 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9938AF672D1E96AF0090977E /* Products */;
@@ -592,6 +593,14 @@
 				minimumVersion = 6.8.0;
 			};
 		};
+		995BE5102D26AB2D001A1693 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.3;
+			};
+		};
 		99CA320B2D22661100557BF8 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -618,10 +627,10 @@
 			package = 9938AFBD2D1E98690090977E /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		99CA320C2D22661100557BF8 /* Moya */ = {
+		995BE5112D26AB2D001A1693 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 99CA320B2D22661100557BF8 /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = Moya;
+			package = 995BE5102D26AB2D001A1693 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		99CA320E2D22661100557BF8 /* RxMoya */ = {
 			isa = XCSwiftPackageProductDependency;
