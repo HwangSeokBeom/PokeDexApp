@@ -7,57 +7,46 @@
 ---
 ## 📁 프로젝트 구조
 
-TicketSquare/
-├── 📱 APIManager/
-│   ├── APIManager.swift          # TMDB API 통신 관리
-│   └── Movie.swift              # 영화 데이터 모델
+```
+PokeDexApp
+├── Common
+│   ├── APIEndpoint                 # API URL 관리
+│   ├── NetworkManager              # 네트워크 통신 관리
 │
-├── 🔐 Login/
-│   ├── Join.swift               # 회원가입 화면
-│   └── Login.swift              # 로그인 화면
+├── Extensions
+│   └── UIColor                     # 커스텀 색상 확장
 │
-├── 📋 MainTabBarController/
-│   └── MainTabBarController.swift    # 탭바 컨트롤러
+├── Model
+│   ├── Pokemon                     # 포켓몬 데이터 모델
+│   └── PokemonDetail               # 포켓몬 상세 데이터 모델
 │
-├── 🏠 MainView/
-│   ├── HeaderView.swift              # 헤더 뷰 컴포넌트
-│   ├── MainViewController.swift      # 메인 화면 컨트롤러
-│   ├── PagingImageCell.swift         # 페이징 이미지 셀
-│   └── SmallImageCell.swift          # 작은 이미지 셀
+├── UseCase
+│   └── PokemonUseCase              # 포켓몬 관련 비즈니스 로직
 │
-├── 🎬 MovieDetail/
-│   └── MovieDetailViewController.swift    # 영화 상세 화면
+├── Utility
+│   ├── PokeDetailsFormatter        # 포켓몬 상세 데이터 포매터
+│   ├── PokemonTranslator           # 포켓몬 데이터 번역 유틸리티
+│   └── PokemonTypeName             # 포켓몬 타입 이름 관리
 │
-├── 👤 MyPage/
-│   ├── MyPageViewController.swift         # 마이페이지 화면
-│   └── TicketTableViewCell.swift          # 예매 내역 셀
+├── View
+│   ├── DetailView                  # 상세 뷰 컴포넌트
+│   └── MainView                    # 메인 뷰 컴포넌트
 │
-├── 🔍 Search/
-│   ├── SearchCollectionViewCell.swift     # 검색 결과 그리드 셀
-│   ├── SearchTableViewCell.swift          # 검색 결과 리스트 셀
-│   ├── SearchView.swift                   # 검색 화면 뷰
-│   └── SearchViewController.swift         # 검색 화면 컨트롤러
+├── ViewController
+│   ├── DetailViewController        # 상세 화면 컨트롤러
+│   ├── MainViewCell                # 메인 뷰 셀
+│   └── MainViewController          # 메인 화면 컨트롤러
 │
-├── 🎫 Ticketing/
-│   ├── Ticket.swift                       # 티켓 모델
-│   ├── TicketingStepper.swift             # 인원 선택 스테퍼
-│   ├── TicketingTimeCollectionViewCell.swift    # 시간 선택 셀
-│   ├── TicketingViewController.swift      # 예매 화면 컨트롤러
-│   └── TicketManager.swift                # 티켓 데이터 관리
+├── ViewModel
+│   ├── DetailViewModel             # 상세 화면 뷰모델
+│   └── MainViewControllerModel     # 메인 화면 뷰모델
 │
-└── 🛠 Utility/
-    ├── AppDelegate.swift                  # 앱 델리게이트
-    ├── Assets.xcassets                    # 에셋 파일
-    ├── Info.plist                         # 프로젝트 설정 파일
-    ├── LaunchScreen                       # 시작 화면
-    ├── MockData                           # 테스트용 더미 데이터
-    ├── PreviewProvider                    # SwiftUI 프리뷰 설정
-    ├── PriceFormatter                     # 가격 포맷 유틸리티
-    ├── SceneDelegate                      # 씬 델리게이트
-    ├── UIColorStyle                       # 커스텀 색상 스타일
-    ├── UserInfo                           # 사용자 정보 관리
-    └── ViewController                     # 기본 뷰 컨트롤러
-
+├── AppDelegate                    
+├── Assets                       
+├── Info                            
+├── LaunchScreen                    
+└── SceneDelegate                   
+```
 
 ---
 
