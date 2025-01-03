@@ -3,11 +3,11 @@
 
 ## ⏰ 프로젝트 일정
 - 시작일: 24/12/30
-- 종료일: 24/1/3
+- 종료일: 24/01/03
 ---
 ## 📁 프로젝트 구조
 
-Pok/
+TicketSquare/
 ├── 📱 APIManager/
 │   ├── APIManager.swift          # TMDB API 통신 관리
 │   └── Movie.swift              # 영화 데이터 모델
@@ -58,6 +58,8 @@
     ├── UserInfo                           # 사용자 정보 관리
     └── ViewController                     # 기본 뷰 컨트롤러
 
+
+---
 
 ### 🛠 기술 스택
 ---
