@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  PokeDexApp
-//
-//  Created by 내일배움캠프 on 12/27/24.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
@@ -13,9 +6,18 @@ import SnapKit
 final class MainViewController: UIViewController {
     
     private var mainView = MainView()
-    private let viewModel = MainViewControllerModel()
+    private let viewModel: MainViewControllerModel
     private let disposeBag = DisposeBag()
     private var pokemon: [Pokemon] = []
+    
+    init(viewModel: MainViewControllerModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = mainView
@@ -28,6 +30,7 @@ final class MainViewController: UIViewController {
     }
     
     private func bind() {
+        // 포켓몬 리스트 데이터 바인딩
         viewModel.pokemonListSubject
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] pokemon in
@@ -38,25 +41,31 @@ final class MainViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // 포켓몬 이미지 데이터 바인딩
+        viewModel.pokemonImagesSubject
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] images in
+                self?.mainView.collectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        // 컬렉션 뷰 설정
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
     }
     
-    // 스크롤 시 추가 데이터를 미리 요청
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentHeight = scrollView.contentSize.height
         let scrollOffset = scrollView.contentOffset.y
         let height = scrollView.frame.size.height
         
-        // 스크롤이 거의 끝에 도달하면 데이터 요청
         if scrollOffset + height > contentHeight - 100 {
             loadMoreData()
         }
     }
     
-    // 더 많은 데이터 요청
     private func loadMoreData() {
-        viewModel.fetchPokemonData() // 더 많은 데이터 요청
+        viewModel.fetchPokemonData() // 추가 데이터 요청
     }
 }
 
@@ -70,22 +79,24 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainViewCell.identifier, for: indexPath) as? MainViewCell else {
             return UICollectionViewCell()
         }
-        
         let currentPokemon = pokemon[indexPath.row]
-        cell.configure(with: currentPokemon, indexPath: indexPath)
+        
+        if let id = currentPokemon.id {
+            let images = (try? viewModel.pokemonImagesSubject.value()) ?? [:]
+            let image = images[id] ?? nil
+            cell.setImage(image)
+        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedPokemon = pokemon[indexPath.row]
-        let detailViewModel = DetailViewModel()
-        detailViewModel.fetchPokemonDetail(for: selectedPokemon.url)
+        let pokemonURL = selectedPokemon.url
+        let detailUseCase = PokemonUseCase()
+        let detailViewModel = DetailViewModel(useCase: detailUseCase)
+        detailViewModel.fetchPokemonDetail(for: pokemonURL)
         let detailVC = DetailViewController(viewModel: detailViewModel)
         navigationController?.pushViewController(detailVC, animated: true)
     }
-    
 }
-
-
-

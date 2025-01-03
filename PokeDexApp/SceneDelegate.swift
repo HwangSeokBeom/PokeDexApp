@@ -17,13 +17,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-                
-        //window에게 루트 뷰 컨트롤러 지정.
-        
-        window.rootViewController = UINavigationController(rootViewController: MainViewController())
-        //이 메서드를 반드시 작성해줘야만 윈도우가 활성화 됨
+        let usecase = PokemonUseCase()
+        let mainViewModel = MainViewControllerModel(useCase: usecase)
+        window.rootViewController = UINavigationController(rootViewController: MainViewController(viewModel: mainViewModel))
         window.makeKeyAndVisible()
-                
+        
         self.window = window
     }
 

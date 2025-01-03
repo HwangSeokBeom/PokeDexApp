@@ -1,53 +1,70 @@
-import Foundation
 import RxSwift
+import RxCocoa
 import UIKit
 
-final class MainViewControllerModel { // 지금 여기 있는 것들을 NetworkManger와 MainViewModel 사이에 있는 useCase 객체를 만들어서 옮기기
+import RxSwift
+import RxCocoa
+import UIKit
 
+final class MainViewControllerModel {
+    
     private let disposeBag = DisposeBag()
+    private let useCase: PokemonUseCase
+    
     let pokemonListSubject = BehaviorSubject<[Pokemon]>(value: [])
+    let pokemonImagesSubject = BehaviorSubject<[Int: UIImage?]>(value: [:])
+    
     private var currentPage = 0
     private let limit = 20
-    private var isLoading = false  // 로딩 중 상태 추가
+    private var isLoading = false
+    
+    init(useCase: PokemonUseCase) {
+        self.useCase = useCase
+    }
     
     func fetchPokemonData() {
-        guard !isLoading else { return } // 이미 로딩 중이면 요청하지 않음
+        guard !isLoading else { return }
         isLoading = true
         
         let offset = currentPage * limit
-        
-        guard let url = APIEndpoint.pokemonListURL(limit: limit, offset: offset) else {
-            pokemonListSubject.onError(NetworkError.invalidUrl)
-            isLoading = false
-            return
-        }
-        
-        NetworkManager.shared.fetch(url: url)
-            .subscribe(onSuccess: { [weak self] (pokemonResponse: PokemonResponse) in
+        useCase.fetchPokemonList(limit: limit, offset: offset)
+            .subscribe(onSuccess: { [weak self] response in
                 guard let self = self else { return }
                 
-                do {
-                    // 새로운 데이터가 로드되면 기존 데이터에 추가
-                    self.currentPage += 1
-                    var currentPokemonList = try self.pokemonListSubject.value()
-
-                    // 중복된 데이터를 추가하지 않도록 필터링
-                    let newPokemons = pokemonResponse.results.filter { newPokemon in
-                        !currentPokemonList.contains { $0.url == newPokemon.url }
+                self.currentPage += 1
+                var currentList = (try? self.pokemonListSubject.value()) ?? []
+                
+                let newPokemons = response.results
+                currentList.append(contentsOf: newPokemons)
+                self.pokemonListSubject.onNext(currentList)
+                
+                // 각 포켓몬의 ID로 이미지를 가져옴
+                newPokemons.forEach { pokemon in
+                    if let id = pokemon.id {
+                        self.fetchPokemonImage(for: id)
                     }
-                    
-                    currentPokemonList.append(contentsOf: newPokemons)
-                    self.pokemonListSubject.onNext(currentPokemonList)
-                    
-                    self.isLoading = false
-                } catch {
-                    print("Error fetching Pokémon list: \(error)")
-                    self.isLoading = false
                 }
+                
+                self.isLoading = false
             }, onFailure: { [weak self] error in
                 self?.pokemonListSubject.onError(error)
                 self?.isLoading = false
             }).disposed(by: disposeBag)
     }
     
+    private func fetchPokemonImage(for id: Int) {
+        useCase.fetchPokemonImage(for: id)
+            .subscribe(onSuccess: { [weak self] image in
+                guard let self = self else { return }
+                var currentImages = (try? self.pokemonImagesSubject.value()) ?? [:]
+                currentImages[id] = image
+                self.pokemonImagesSubject.onNext(currentImages)
+            }, onFailure: { [weak self] _ in
+                guard let self = self else { return }
+                var currentImages = (try? self.pokemonImagesSubject.value()) ?? [:]
+                currentImages[id] = nil
+                self.pokemonImagesSubject.onNext(currentImages)
+            }).disposed(by: disposeBag)
+    }
 }
+
