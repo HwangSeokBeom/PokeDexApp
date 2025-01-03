@@ -25,12 +25,11 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fetchPokemonData() // 초기 데이터 로드
+        viewModel.fetchPokemonData()
         bind()
     }
     
     private func bind() {
-        // 포켓몬 리스트 데이터 바인딩
         viewModel.pokemonListSubject
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] pokemon in
@@ -41,7 +40,6 @@ final class MainViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        // 포켓몬 이미지 데이터 바인딩
         viewModel.pokemonImagesSubject
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] images in
@@ -49,7 +47,6 @@ final class MainViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        // 컬렉션 뷰 설정
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
     }
@@ -65,7 +62,7 @@ final class MainViewController: UIViewController {
     }
     
     private func loadMoreData() {
-        viewModel.fetchPokemonData() // 추가 데이터 요청
+        viewModel.fetchPokemonData()
     }
 }
 

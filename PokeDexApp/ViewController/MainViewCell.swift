@@ -5,9 +5,6 @@ import SnapKit
 final class MainViewCell: UICollectionViewCell {
     
     static let identifier = "MainViewCell"
-    //private var currentIndexPath: IndexPath? // 현재 셀의 indexPath를 추적
-    //private let viewModel = MainViewCellModel() // 뷰모델 생성
-    //private var disposeBag = DisposeBag()
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -37,7 +34,6 @@ final class MainViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imageView.image = nil
-        //self.currentIndexPath = nil
     }
     
     func setImage(_ image: UIImage?) {

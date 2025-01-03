@@ -41,16 +41,14 @@ final class NetworkManager {
                 return Disposables.create()
             }
             
-            // Kingfisher를 사용하여 이미지 요청
             KingfisherManager.shared.retrieveImage(with: url) { result in
                 switch result {
                 case .success(let value):
-                    observer(.success(value.image)) // 이미지 로드 성공 시
+                    observer(.success(value.image))
                 case .failure:
-                    observer(.failure(NetworkError.dataFetchFail)) // 실패 시
+                    observer(.failure(NetworkError.dataFetchFail))
                 }
             }
-            
             return Disposables.create()
         }
     }

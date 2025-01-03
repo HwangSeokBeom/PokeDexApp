@@ -7,7 +7,6 @@ final class DetailViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let detailView = DetailView()
     
-    // 생성자에서 ViewModel 주입
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)

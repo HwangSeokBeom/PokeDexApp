@@ -37,8 +37,7 @@ final class MainViewControllerModel {
                 let newPokemons = response.results
                 currentList.append(contentsOf: newPokemons)
                 self.pokemonListSubject.onNext(currentList)
-                
-                // 각 포켓몬의 ID로 이미지를 가져옴
+           
                 newPokemons.forEach { pokemon in
                     if let id = pokemon.id {
                         self.fetchPokemonImage(for: id)
