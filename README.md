@@ -50,6 +50,11 @@ PokeDexApp
 
 ---
 
+### 🎥 시연 영상
+|![화면 기록 2025-01-03 오후 8 17 56](https://github.com/user-attachments/assets/4c967891-1f32-4f00-9ddc-ff8569df5fa6)|![화면 기록 2025-01-03 오후 8 22 05](https://github.com/user-attachments/assets/88e9811a-8df0-4005-b7f0-1600af778228)|
+|:---:|:---:|
+|메인 페이지|상세 페이지|
+
 ### 🛠 기술 스택
 ---
 #### Development Environment
