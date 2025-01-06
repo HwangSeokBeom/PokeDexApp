@@ -14,6 +14,8 @@ PokeDexApp
 │
 ├── Extensions
 │   └── UIColor                     # 커스텀 색상 확장
+├── Coordinators
+│   └── AppCoordinator              # 애플리케이션의 네비게이션 흐름을 관리하는 코디네이터                    
 │
 ├── Model
 │   ├── Pokemon                     # 포켓몬 데이터 모델
