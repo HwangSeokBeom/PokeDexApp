@@ -6,12 +6,14 @@ import SnapKit
 final class MainViewController: UIViewController {
     
     private var mainView = MainView()
-    private let viewModel: MainViewControllerModel
+    private let viewModel: MainViewModel
+    private let coordinator: AppCoordinator
     private let disposeBag = DisposeBag()
     private var pokemon: [Pokemon] = []
     
-    init(viewModel: MainViewControllerModel) {
+    init(viewModel: MainViewModel, coordinator: AppCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -89,11 +91,6 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedPokemon = pokemon[indexPath.row]
-        let pokemonURL = selectedPokemon.url
-        let detailUseCase = PokemonUseCase()
-        let detailViewModel = DetailViewModel(useCase: detailUseCase)
-        detailViewModel.fetchPokemonDetail(for: pokemonURL)
-        let detailVC = DetailViewController(viewModel: detailViewModel)
-        navigationController?.pushViewController(detailVC, animated: true)
+        viewModel.pokemonSelected.onNext(selectedPokemon)
     }
 }

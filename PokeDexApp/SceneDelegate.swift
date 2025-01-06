@@ -13,16 +13,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        //UIWindowScene 객체 생성.
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
+        
         let window = UIWindow(windowScene: windowScene)
-        let usecase = PokemonUseCase()
-        let mainViewModel = MainViewControllerModel(useCase: usecase)
-        window.rootViewController = UINavigationController(rootViewController: MainViewController(viewModel: mainViewModel))
+        let navigationController = UINavigationController()
+        let coordinator = AppCoordinator(navigationController: navigationController)
+        
+        coordinator.start()
+        
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
-        self.window = window
+        self.window = window 
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

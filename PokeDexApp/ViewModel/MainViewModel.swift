@@ -6,13 +6,14 @@ import RxSwift
 import RxCocoa
 import UIKit
 
-final class MainViewControllerModel {
+final class MainViewModel {
     
     private let disposeBag = DisposeBag()
     private let useCase: PokemonUseCase
     
     let pokemonListSubject = BehaviorSubject<[Pokemon]>(value: [])
     let pokemonImagesSubject = BehaviorSubject<[Int: UIImage?]>(value: [:])
+    let pokemonSelected = PublishSubject<Pokemon>()
     
     private var currentPage = 0
     private let limit = 20
