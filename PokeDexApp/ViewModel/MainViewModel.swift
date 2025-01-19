@@ -2,10 +2,6 @@ import RxSwift
 import RxCocoa
 import UIKit
 
-import RxSwift
-import RxCocoa
-import UIKit
-
 final class MainViewModel {
     
     private let disposeBag = DisposeBag()
@@ -14,6 +10,7 @@ final class MainViewModel {
     let pokemonListSubject = BehaviorSubject<[Pokemon]>(value: [])
     let pokemonImagesSubject = BehaviorSubject<[Int: UIImage?]>(value: [:])
     let pokemonSelected = PublishSubject<Pokemon>()
+    let loadMoreTrigger = PublishSubject<Void>()
     
     private var currentPage = 0
     private let limit = 20
@@ -21,6 +18,14 @@ final class MainViewModel {
     
     init(useCase: PokemonListUseCaseProtocol) {
         self.useCase = useCase
+    }
+    
+    private func bindLoadMoreTrigger() {
+        loadMoreTrigger
+            .subscribe(onNext: { [weak self] in
+                self?.fetchPokemonData()
+            })
+            .disposed(by: disposeBag)
     }
     
     func fetchPokemonData() {

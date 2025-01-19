@@ -31,7 +31,7 @@ final class MainViewController: UIViewController {
     }
     
     private func bind() {
-        rx.viewDidLoad
+        self.rx.viewDidLoad
             .bind(onNext: { [weak self] in
                 self?.viewModel.fetchPokemonData()
             })
@@ -52,6 +52,19 @@ final class MainViewController: UIViewController {
             .subscribe(onNext: { [weak self] images in
                 self?.mainView.collectionView.reloadData()
             })
+            .disposed(by: disposeBag)
+        
+        mainView.collectionView.rx.contentOffset
+            .map { [weak self] offset -> Bool in
+                guard let self = self else { return false }
+                let contentHeight = self.mainView.collectionView.contentSize.height
+                let height = self.mainView.collectionView.frame.size.height
+                return offset.y + height > contentHeight - 100
+            }
+            .distinctUntilChanged() // 중복 호출 방지
+            .filter { $0 } // true인 경우만 통과
+            .map { _ in () } // Void로 변환
+            .bind(to: viewModel.loadMoreTrigger)
             .disposed(by: disposeBag)
         
         mainView.collectionView.delegate = self
