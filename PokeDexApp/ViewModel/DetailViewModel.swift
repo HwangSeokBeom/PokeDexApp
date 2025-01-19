@@ -12,11 +12,11 @@ import RxCocoa
 final class DetailViewModel {
     
     private let disposeBag = DisposeBag()
-    private let useCase: PokemonUseCase
+    private let useCase: PokemonDetailUseCaseProtocol
     let pokemonDetailSubject = BehaviorSubject<PokemonDetail?>(value: nil)
     let pokemonImageRelay = PublishRelay<UIImage?>()
     
-    init(useCase: PokemonUseCase) {
+    init(useCase: PokemonDetailUseCaseProtocol) {
         self.useCase = useCase
     }
     

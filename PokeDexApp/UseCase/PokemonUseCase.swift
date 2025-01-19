@@ -7,7 +7,7 @@
 import RxSwift
 import UIKit
 
-final class PokemonUseCase {
+final class PokemonUseCase: PokemonListUseCaseProtocol, PokemonDetailUseCaseProtocol {
     
     private let networkManager: NetworkManager
     private let disposeBag = DisposeBag()

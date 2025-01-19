@@ -9,18 +9,27 @@ import UIKit
 final class MainViewModel {
     
     private let disposeBag = DisposeBag()
-    private let useCase: PokemonUseCase
+    private let useCase: PokemonListUseCaseProtocol
     
     let pokemonListSubject = BehaviorSubject<[Pokemon]>(value: [])
     let pokemonImagesSubject = BehaviorSubject<[Int: UIImage?]>(value: [:])
     let pokemonSelected = PublishSubject<Pokemon>()
+    let viewDidLoadSubject = PublishSubject<Void>()
     
     private var currentPage = 0
     private let limit = 20
     private var isLoading = false
     
-    init(useCase: PokemonUseCase) {
+    init(useCase: PokemonListUseCaseProtocol) {
         self.useCase = useCase
+    }
+    
+    private func bindViewDidLoad() {
+        viewDidLoadSubject
+            .subscribe(onNext: { [weak self] in
+                self?.fetchPokemonData()
+            })
+            .disposed(by: disposeBag)
     }
     
     func fetchPokemonData() {
