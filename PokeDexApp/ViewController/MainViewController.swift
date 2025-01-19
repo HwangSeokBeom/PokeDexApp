@@ -27,11 +27,16 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fetchPokemonData()
         bind()
     }
     
     private func bind() {
+        rx.viewDidLoad
+            .bind(onNext: { [weak self] in
+                self?.viewModel.fetchPokemonData()
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.pokemonListSubject
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] pokemon in
